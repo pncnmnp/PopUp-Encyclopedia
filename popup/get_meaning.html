@@ -3,25 +3,46 @@
 <head>
 	<meta charset="utf-8">
 	<title>Get Meaning</title>
+	<link rel="stylesheet" type="text/css" href="./get_meaning.css">
+	<script src="../stemmer/PorterStemmer1980.js"></script>
 </head>
 <body>
+	<div id="text-input">
+		<form id="get-meaning">
+		<input type="text" id="input-meaning">
+		<button id="sub-button" type="button">Search</button>
+		</form>
+	</div>
+	<div id="meaning"></div>
 
-<div id="meaning"></div>
+	<script type="text/javascript">
+		function fetch_dictionary() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var myObj = JSON.parse(this.responseText);
+					var search = myObj[word];
+					if (search != undefined) { 
+						document.getElementById("meaning").innerHTML = myObj[word];
+					}	
+					else {
+						var stemmed = stemmer(word);
+						console.log(stemmed);
+						if(myObj[stemmed] != undefined) {
+							document.getElementById("meaning").innerHTML = myObj[stemmed];
+						}
+					}
+				}
+			};
 
-<script>
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var myObj = JSON.parse(this.responseText);
-			document.getElementById("meaning").innerHTML = myObj[word];
+			var word = document.getElementById("input-meaning").value.toLowerCase();
+			xmlhttp.open("GET", "dictionary.txt", true);
+			xmlhttp.overrideMimeType("text/plain");	
+			xmlhttp.send();
 		}
-	};
 
-	var word = "Greek".toLowerCase();
-	xmlhttp.open("GET", "dictionary.txt", true);
-	xmlhttp.overrideMimeType("text/plain");	
-	xmlhttp.send(); 
-</script>
-
+		var subButton = document.getElementById('sub-button');
+		subButton.addEventListener('click', fetch_dictionary, false);
+	</script>
 </body>
 </html>

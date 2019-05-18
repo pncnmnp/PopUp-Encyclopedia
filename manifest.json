@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+	"name": "PopUp Dictionary",
+	"version": "1.0",
+
+	"description": "Popup dictionary which popups when a word is double-clicked",
+
+	"icons": {
+		"48": "icons/popup-48.png"
+	},
+
+	"permissions": [
+		"activeTab"
+	],
+
+	"browser_action": {
+		"default_icon": "icons/popup-36.png",
+		"default_title": "PopUp Dictionary",
+		"default_popup": "popup/get_meaning.html"
+	},
+
+
+	"web_accessible_resources": [
+		"dictionary.txt"
+	]
+}

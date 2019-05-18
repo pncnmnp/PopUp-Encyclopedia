@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Get Meaning</title>
+</head>
+<body>
+
+<div id="meaning"></div>
+
+<script>
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var myObj = JSON.parse(this.responseText);
+			document.getElementById("meaning").innerHTML = myObj[word];
+		}
+	};
+
+	var word = "Greek".toLowerCase();
+	xmlhttp.open("GET", "dictionary.txt", true);
+	xmlhttp.overrideMimeType("text/plain");	
+	xmlhttp.send(); 
+</script>
+
+</body>
+</html>

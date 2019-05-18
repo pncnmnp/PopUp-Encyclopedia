@@ -1,11 +1,20 @@
 html, body {
-  width: 200px;
+	width: 220px;
+	background-color: #F5DEB3;
 }
 
-.button {
-  margin: 3% auto;
-  padding: 4px;
-  text-align: center;
-  font-size: 1.5em;
-  cursor: pointer;
+input {
+	width: 150px;
+}
+
+.text-input {
+	text-align: center;
+}
+
+.text-input button {
+	cursor:pointer;
+	background: #dcb874;
+  	border-style: solid;
+  	padding: 4px;	
+	border-radius: 4px;
 }

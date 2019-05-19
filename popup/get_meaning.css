@@ -1,6 +1,12 @@
 html, body {
-	width: 220px;
+	width: 250px;
 	background-color: #F5DEB3;
+	position: relative;
+	font-family: monospace;
+}
+
+b {
+	padding-left: 65px;
 }
 
 input {
@@ -17,6 +23,7 @@ input {
 	cursor:pointer;
 	background: #dcb874;
   	border-style: solid;
-  	padding: 4px;	
+  	border-color: transparent;
+  	padding: 1px;	
 	border-radius: 4px;
 }

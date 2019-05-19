@@ -1,17 +1,24 @@
 var subButton = document.getElementById('sub-button');
 
+/* Clicks the button when ENTER key is pressed */
 document.getElementById("input-meaning")
-    .addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("sub-button").click();
-    }
+	.addEventListener("keyup", function(event) {
+	event.preventDefault();
+	if (event.keyCode === 13) {
+		document.getElementById("sub-button").click();
+	}
 });
 
+/* Fetches the meaning when button is CLICKED */
 subButton.addEventListener('click', fetch_dictionary, false);
 
+/* Fetches meaning when TEXT is DOUBLE CLICKED  */
 document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSelection().toString())});
 
+/*
+   Displays meaning by creating a 'p' tag inside 'meaning' class if it does not exists,
+   Else it replaces the 'p' tag with new tag to prevent appending of text.
+*/
 function display_meaning(meaning) {
 		var parent = document.querySelector('.meaning');
 		if (document.querySelector('.meaning p') == null) {
@@ -28,6 +35,10 @@ function display_meaning(meaning) {
 		}
 }
 
+/*
+    Searches Wikipedia using mediawiki's API, 
+    if no result found, will return a link to google query wrt the word.
+*/
 function fetch_wiki(api_link, word) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -41,15 +52,24 @@ function fetch_wiki(api_link, word) {
 
 			else if(word != "") {
 				// document.getElementById("meaning").innerHTML = "Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>";
-				display_meaning("Makes no sense to me 🙂. Let the giant serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">google</a>");
+				display_meaning("David is unable to help 🙂. Let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
 			}
 		}
 	}
+
 	xmlhttp.open("GET", api_link, true);
+	/* This is necessary for mediawiki API's */
 	xmlhttp.setRequestHeader('Content-Type','application/json; charset=UTF-8');
 	xmlhttp.send();
 }
 
+
+/*
+    The input's origin is segregated on the basis of double-click text or input-box text.
+    The word[s] obtained is/are matched in the inbuilt dictionary,
+    If no result found, the word[s] is/are stemmed and again searched,
+    If still no result, fetch_wiki() is executed.
+*/
 function fetch_dictionary(new_word) {
 	var xmlhttp = new XMLHttpRequest();
     console.log("here", document.querySelector(".input-meaning").value);

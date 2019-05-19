@@ -1,5 +1,6 @@
 var subButton = document.getElementById('sub-button');
 subButton.addEventListener('click', fetch_dictionary, false);
+document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSelection().toString())});
 
 function display_meaning(meaning) {
 	var parent = document.querySelector('.meaning');
@@ -36,7 +37,7 @@ function fetch_wiki(api_link, word) {
 	xmlhttp.send();
 }
 
-function fetch_dictionary() {
+function fetch_dictionary(new_word) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -61,9 +62,17 @@ function fetch_dictionary() {
 		}
 	};	
 
-	var word = document.querySelector('.text-input input');
+	if (new_word.toString() != '[object MouseEvent]') {
+		var word = new_word.toString();
+		word = word.toLowerCase();
+		document.querySelector(".input-meaning").value = word;
+	}
+
+	else {
+		var word = document.querySelector('.text-input input');
+		word = word.value.toLowerCase();
+	}
 	// var word = document.getElementById("input-meaning").value.toLowerCase();
-	word = word.value.toLowerCase();
 	xmlhttp.open("GET", "dictionary.txt", true);
 	xmlhttp.overrideMimeType("text/plain");	
 	xmlhttp.send();

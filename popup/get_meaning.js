@@ -46,13 +46,20 @@ function fetch_wiki(api_link, word) {
 			var response = JSON.parse(this.responseText);
 			if (response[2] != undefined && response[2][0] != undefined && response[2][0] != "") {
 				// document.getElementById("meaning").innerHTML = response[2][0];
-				display_meaning(response[2][0]);
-				browser.runtime.sendMessage(response[2][0]);
+				// checking the 'may refer to:' condition
+				if (response[2][0].substr(-13) == "may refer to:") {
+					display_meaning(response[2][1]);
+					browser.runtime.sendMessage(response[2][1]);
+				}
+				else {
+					display_meaning(response[2][0]);
+					browser.runtime.sendMessage(response[2][0]);
+				}
 			}
 
 			else if(word != "") {
 				// document.getElementById("meaning").innerHTML = "Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>";
-				display_meaning("David is unable to help 🙂. Let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
+				display_meaning("David is unable to help 🙂. For a change let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
 			}
 		}
 	}
@@ -90,18 +97,20 @@ function fetch_dictionary(new_word) {
 
 			else {
 				var front_str = 'https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=';
-				var end_str = '&limit=1&namespace=0&format=json';
+				var end_str = '&limit=2&namespace=0&format=json';
 				fetch_wiki(front_str+word+end_str, word);
 			}
 		}
 	};	
 
+	// checks if the word is a double-click text
 	if (new_word.toString() != '[object MouseEvent]') {
 		var word = new_word.toString();
 		word = word.toLowerCase();
 		document.querySelector(".input-meaning").value = word;
 	}
 
+	// else word is from the input box
 	else {
 		var word = document.querySelector('.text-input input');
 		word = word.value.toLowerCase();

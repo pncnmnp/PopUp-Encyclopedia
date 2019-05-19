@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
-	"name": "PopUp Dictionary",
+	"name": "PopUp Encyclopedia",
 	"version": "1.0",
 
-	"description": "Popup dictionary which works offline and popups when a word is double-clicked.",
+	"description": "Popup Encyclopedia which works offline and popups when a word is double-clicked.",
 
 	"icons": {
 		"48": "icons/popup-48.png"
@@ -15,7 +15,7 @@
 
 	"browser_action": {
 		"default_icon": "icons/popup-36.png",
-		"default_title": "PopUp Dictionary",
+		"default_title": "PopUp Encyclopedia",
 		"default_popup": "popup/get_meaning.html"
 	},
 
@@ -29,7 +29,7 @@
 			"suggested_key": {
 				"default": "Alt+Shift+M"
 			},
-			"description": "opens the dictionary"
+			"description": "opens the Encyclopedia"
 		}
 	}
 }

@@ -35,9 +35,48 @@ function display_meaning(meaning) {
 		}
 }
 
+
+/*
+    As a last resort, it tries getting a summary from wikipedia,
+    if no result found, will return a link to google query wrt the word.
+*/
+function fetch_wiki_summary(word) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		var summary;
+		if (this.readyState == 4 && this.status == 200) {
+			var response = JSON.parse(this.responseText);
+			console.log(response);
+			for(var key in response['query']['pages']) {
+				if (response['query']['pages']) {
+					if (response['query']['pages'][key]['extract']) {
+						summary = response['query']['pages'][key]['extract'];
+						break;
+					}
+				}
+			}
+
+			if (summary != undefined) {
+				display_meaning(summary);
+			}
+
+			else {
+				display_meaning("David is unable to help 🙂. For a change let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
+			}
+		}
+	}
+
+	var api_head = 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
+	var api_tail = '&origin=*'
+	xmlhttp.open("GET", api_head+word+api_tail, true);
+	/* This is necessary for mediawiki API's */
+	xmlhttp.setRequestHeader('Content-Type','application/json; charset=UTF-8');
+	xmlhttp.send();
+}
+
 /*
     Searches Wikipedia using mediawiki's API, 
-    if no result found, will return a link to google query wrt the word.
+    if no result found, it will call fetch_wiki_summary().
 */
 function fetch_wiki(api_link, word) {
 	var xmlhttp = new XMLHttpRequest();
@@ -58,8 +97,8 @@ function fetch_wiki(api_link, word) {
 			}
 
 			else if(word != "") {
+				fetch_wiki_summary(word);
 				// document.getElementById("meaning").innerHTML = "Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>";
-				display_meaning("David is unable to help 🙂. For a change let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
 			}
 		}
 	}

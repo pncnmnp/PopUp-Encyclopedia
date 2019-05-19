@@ -4,6 +4,7 @@
 	"version": "1.0",
 
 	"description": "Popup Encyclopedia which works offline and popups when a word is double-clicked.",
+	"homepage_url": "https://github.com/pncnmnp/PopUp-Encyclopedia",
 
 	"icons": {
 		"48": "icons/popup-48.png"

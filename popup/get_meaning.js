@@ -21,20 +21,40 @@ document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSe
 */
 function display_meaning(meaning) {
 		var parent = document.querySelector('.meaning');
-		if (document.querySelector('.meaning p') == null) {
+		if (meaning.search('</a>') != -1) {
+			var url_arr = meaning.split('</a>');
+			var googleURL = document.createElement('a');
+			googleURL.href = url_arr[0];
+			googleURL.title = url_arr[1];
+			googleURL.appendChild(document.createTextNode(url_arr[1]));
+
 			var meaningPara = document.createElement('p');
-			meaningPara.innerHTML = meaning;
+			meaningPara.appendChild(document.createTextNode("David is unable to help 🙂. For a change let the Goliath serve you: "));
+			meaningPara.appendChild(googleURL);
+
+			if(document.querySelector('.meaning p') == null) {
+				parent.appendChild(meaningPara);
+			}
+
+			else {
+				var prevNode = document.querySelector('.meaning p');
+				parent.replaceChild(meaningPara, prevNode);
+			}
+		}
+
+		else if (document.querySelector('.meaning p') == null) {
+			var meaningPara = document.createElement('p');
+			meaningPara.appendChild(document.createTextNode(meaning));
 			parent.appendChild(meaningPara);
 		}
 
 		else {
 			var prevNode = document.querySelector('.meaning p');
 			var newNode = document.createElement('p');
-			newNode.innerHTML = meaning;
+			newNode.appendChild(document.createTextNode(meaning));
 			parent.replaceChild(newNode, prevNode);
 		}
 }
-
 
 /*
     As a last resort, it tries getting a summary from wikipedia,
@@ -46,7 +66,6 @@ function fetch_wiki_summary(word) {
 		var summary;
 		if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
-			console.log(response);
 			for(var key in response['query']['pages']) {
 				if (response['query']['pages']) {
 					if (response['query']['pages'][key]['extract']) {
@@ -61,7 +80,7 @@ function fetch_wiki_summary(word) {
 			}
 
 			else {
-				display_meaning("David is unable to help 🙂. For a change let the Goliath serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">"+word+"</a>");
+				display_meaning("https://www.google.com/search?q="+word+"</a>"+word);
 			}
 		}
 	}
@@ -118,7 +137,6 @@ function fetch_wiki(api_link, word) {
 */
 function fetch_dictionary(new_word) {
 	var xmlhttp = new XMLHttpRequest();
-    console.log("here", document.querySelector(".input-meaning").value);
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var myObj = JSON.parse(this.responseText);

@@ -5,6 +5,8 @@ html, body {
 
 input {
 	width: 150px;
+	border-spacing: 4px;
+	border-color: transparent;
 }
 
 .text-input {

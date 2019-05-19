@@ -3,7 +3,7 @@
 	"name": "PopUp Dictionary",
 	"version": "1.0",
 
-	"description": "Popup dictionary which popups when a word is double-clicked",
+	"description": "Popup dictionary which works offline and popups when a word is double-clicked.",
 
 	"icons": {
 		"48": "icons/popup-48.png"
@@ -22,5 +22,14 @@
 
 	"web_accessible_resources": [
 		"dictionary.txt"
-	]
+	],
+
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"default": "Alt+Shift+M"
+			},
+			"description": "opens the dictionary"
+		}
+	}
 }

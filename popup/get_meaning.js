@@ -1,5 +1,15 @@
 var subButton = document.getElementById('sub-button');
+
+document.getElementById("input-meaning")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("sub-button").click();
+    }
+});
+
 subButton.addEventListener('click', fetch_dictionary, false);
+
 document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSelection().toString())});
 
 function display_meaning(meaning) {
@@ -26,8 +36,10 @@ function fetch_wiki(api_link, word) {
 			if (response[2] != undefined && response[2][0] != undefined && response[2][0] != "") {
 				// document.getElementById("meaning").innerHTML = response[2][0];
 				display_meaning(response[2][0]);
+				browser.runtime.sendMessage(response[2][0]);
 			}
-			else {
+
+			else if(word != "") {
 				// document.getElementById("meaning").innerHTML = "Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>";
 				display_meaning("Makes no sense to me 🙂. Let the giant serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">google</a>");
 			}
@@ -40,6 +52,7 @@ function fetch_wiki(api_link, word) {
 
 function fetch_dictionary(new_word) {
 	var xmlhttp = new XMLHttpRequest();
+    console.log("here", document.querySelector(".input-meaning").value);
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var myObj = JSON.parse(this.responseText);

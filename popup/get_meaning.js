@@ -3,18 +3,19 @@ subButton.addEventListener('click', fetch_dictionary, false);
 document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSelection().toString())});
 
 function display_meaning(meaning) {
-	var parent = document.querySelector('.meaning');
-	if (document.querySelector('.meaning p') == null) {
-		var meaningPara = document.createElement('p');
-		meaningPara.textContent = meaning;
-		parent.appendChild(meaningPara);
-	}
-	else {
-		var prevNode = document.querySelector('.meaning p');
-		var newNode = document.createElement('p');
-		newNode.textContent = meaning;
-		parent.replaceChild(newNode, prevNode);
-	}	
+		var parent = document.querySelector('.meaning');
+		if (document.querySelector('.meaning p') == null) {
+			var meaningPara = document.createElement('p');
+			meaningPara.innerHTML = meaning;
+			parent.appendChild(meaningPara);
+		}
+
+		else {
+			var prevNode = document.querySelector('.meaning p');
+			var newNode = document.createElement('p');
+			newNode.innerHTML = meaning;
+			parent.replaceChild(newNode, prevNode);
+		}
 }
 
 function fetch_wiki(api_link, word) {
@@ -22,13 +23,13 @@ function fetch_wiki(api_link, word) {
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
-			if (response[2][0] != "" && response[2][0] != undefined) {
+			if (response[2] != undefined && response[2][0] != undefined && response[2][0] != "") {
 				// document.getElementById("meaning").innerHTML = response[2][0];
 				display_meaning(response[2][0]);
 			}
 			else {
 				// document.getElementById("meaning").innerHTML = "Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>";
-				display_meaning("Makes no sense to me 🙂. Let the giant serve you: <a href='http://www.google.com/search?q="+word+"'> google </a>");
+				display_meaning("Makes no sense to me 🙂. Let the giant serve you: " + "<a href=\"https://www.google.com/search?q="+word+"\">google</a>");
 			}
 		}
 	}
@@ -48,10 +49,10 @@ function fetch_dictionary(new_word) {
 				// document.getElementById("meaning").innerHTML = myObj[word];
 				display_meaning(myObj[word]);
 			}	
-			
+
 			else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
 				// document.getElementById("meaning").innerHTML = myObj[stemmed];
-				display_meaning(myObj[word]);
+				display_meaning(myObj[stemmed]);
 			}
 
 			else {

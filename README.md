@@ -1,0 +1,1 @@
+This extension is available for download on `https://addons.mozilla.org/en-US/firefox/addon/popup-encyclopedia/`.

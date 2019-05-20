@@ -1,4 +1,4 @@
-var subButton = document.getElementById('sub-button');
+var subButton = document.getElementById("sub-button");
 
 /* Clicks the button when ENTER key is pressed */
 document.getElementById("input-meaning")
@@ -10,49 +10,55 @@ document.getElementById("input-meaning")
 });
 
 /* Fetches the meaning when button is CLICKED */
-subButton.addEventListener('click', fetch_dictionary, false);
+subButton.addEventListener("click", fetch_dictionary, false);
 
 /* Fetches meaning when TEXT is DOUBLE CLICKED  */
-document.addEventListener('dblclick', function(e) {fetch_dictionary(window.getSelection().toString())});
+document.addEventListener("dblclick", 
+	function(e) {
+		fetch_dictionary(window.getSelection().toString());
+});
 
 /*
    Displays meaning by creating a 'p' tag inside 'meaning' class if it does not exists,
    Else it replaces the 'p' tag with new tag to prevent appending of text.
 */
 function display_meaning(meaning) {
-		var parent = document.querySelector('.meaning');
-		if (meaning.search('</a>') != -1) {
-			var url_arr = meaning.split('</a>');
-			var googleURL = document.createElement('a');
+		var parent = document.querySelector(".meaning");
+		if (meaning.search("</a>") != -1) {
+			var url_arr = meaning.split("</a>");
+			var googleURL = document.createElement("a");
 			googleURL.href = url_arr[0];
 			googleURL.title = url_arr[1];
 			googleURL.appendChild(document.createTextNode(url_arr[1]));
 
-			var meaningPara = document.createElement('p');
-			meaningPara.appendChild(document.createTextNode("David is unable to help 🙂. For a change let the Goliath serve you: "));
+			var meaningPara = document.createElement("p");
+			meaningPara.appendChild(
+				document.createTextNode("David is unable to help 🙂. For a change let the Goliath serve you: ")
+			);
 			meaningPara.appendChild(googleURL);
 
-			if(document.querySelector('.meaning p') == null) {
+			if(document.querySelector(".meaning p") == null) {
 				parent.appendChild(meaningPara);
 			}
 
 			else {
-				var prevNode = document.querySelector('.meaning p');
+				var prevNode = document.querySelector(".meaning p");
 				parent.replaceChild(meaningPara, prevNode);
 			}
 		}
 
-		else if (document.querySelector('.meaning p') == null) {
-			var meaningPara = document.createElement('p');
-			meaningPara.appendChild(document.createTextNode(meaning));
-			parent.appendChild(meaningPara);
-		}
-
 		else {
-			var prevNode = document.querySelector('.meaning p');
-			var newNode = document.createElement('p');
-			newNode.appendChild(document.createTextNode(meaning));
-			parent.replaceChild(newNode, prevNode);
+			meaningPara = document.createElement("p");
+			meaningPara.appendChild(document.createTextNode(meaning));
+			prevNode = document.querySelector(".meaning p");
+
+			if(prevNode == null) {
+				parent.appendChild(meaningPara);
+			}
+
+			else {
+				parent.replaceChild(meaningPara, prevNode);
+			}
 		}
 }
 
@@ -66,10 +72,10 @@ function fetch_wiki_summary(word) {
 		var summary;
 		if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
-			for(var key in response['query']['pages']) {
-				if (response['query']['pages']) {
-					if (response['query']['pages'][key]['extract']) {
-						summary = response['query']['pages'][key]['extract'];
+			for(var key in response["query"]["pages"]) {
+				if (response["query"]["pages"]) {
+					if (response["query"]["pages"][key]["extract"]) {
+						summary = response["query"]["pages"][key]["extract"];
 						break;
 					}
 				}
@@ -85,11 +91,11 @@ function fetch_wiki_summary(word) {
 		}
 	}
 
-	var api_head = 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
-	var api_tail = '&origin=*'
+	var api_head = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles="
+	var api_tail = "&origin=*"
 	xmlhttp.open("GET", api_head+word+api_tail, true);
 	/* This is necessary for mediawiki API's */
-	xmlhttp.setRequestHeader('Content-Type','application/json; charset=UTF-8');
+	xmlhttp.setRequestHeader("Content-Type","application/json; charset=UTF-8");
 	xmlhttp.send();
 }
 
@@ -107,11 +113,9 @@ function fetch_wiki(api_link, word) {
 				// checking the 'may refer to:' condition
 				if (response[2][0].substr(-13) == "may refer to:") {
 					display_meaning(response[2][1]);
-					browser.runtime.sendMessage(response[2][1]);
 				}
 				else {
 					display_meaning(response[2][0]);
-					browser.runtime.sendMessage(response[2][0]);
 				}
 			}
 
@@ -124,7 +128,7 @@ function fetch_wiki(api_link, word) {
 
 	xmlhttp.open("GET", api_link, true);
 	/* This is necessary for mediawiki API's */
-	xmlhttp.setRequestHeader('Content-Type','application/json; charset=UTF-8');
+	xmlhttp.setRequestHeader("Content-Type","application/json; charset=UTF-8");
 	xmlhttp.send();
 }
 
@@ -153,15 +157,15 @@ function fetch_dictionary(new_word) {
 			}
 
 			else {
-				var front_str = 'https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=';
-				var end_str = '&limit=2&namespace=0&format=json';
+				var front_str = "https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=";
+				var end_str = "&limit=2&namespace=0&format=json";
 				fetch_wiki(front_str+word+end_str, word);
 			}
 		}
 	};	
 
 	// checks if the word is a double-click text
-	if (new_word.toString() != '[object MouseEvent]') {
+	if (new_word.toString() != "[object MouseEvent]") {
 		var word = new_word.toString();
 		word = word.toLowerCase();
 		document.querySelector(".input-meaning").value = word;
@@ -169,7 +173,7 @@ function fetch_dictionary(new_word) {
 
 	// else word is from the input box
 	else {
-		var word = document.querySelector('.text-input input');
+		var word = document.querySelector(".text-input input");
 		word = word.value.toLowerCase();
 	}
 	// var word = document.getElementById("input-meaning").value.toLowerCase();

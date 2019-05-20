@@ -1,10 +1,10 @@
-This extension is available for download on [Mozilla Addons](https://addons.mozilla.org/en-US/firefox/addon/popup-encyclopedia/`) page.
+This extension is available for download on [Mozilla Addons](https://addons.mozilla.org/en-US/firefox/addon/popup-encyclopedia/) page.
 
 ### Description
-*Popup Encyclopedia is a blazingly fast dictionary/encyclopedia which can be used to search any word or collection of words. It supports word-stemming and double-click-on-text navigation.*<br/>
+***Popup Encyclopedia** is a blazingly fast dictionary/encyclopedia which can be used to search any word or collection of words. It supports word-stemming and double-click-on-text navigation.*<br/>
 "Double-click-on-text" navigation is a feature by which you can double-click on any text in the popup window to get it's meaning without having to type it again in search box.<br/>
 This extension works offline as a Dictionary search.<br/>
-For keyboard ninjas, Alt+Shift+M is a shortcut key to popup the extension.
+For keyboard ninjas, **Alt+Shift+M** is a *shortcut key* to popup the extension.
 
 ### Demo
 ![demo_clip](https://github.com/pncnmnp/PopUp-Encyclopedia/blob/master/icons/output.gif)

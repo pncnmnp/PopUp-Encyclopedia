@@ -40,7 +40,7 @@
 			$('#infoDiv').css('padding', '12px 12px 12px 12px');
 			$('#infoDiv').css('border-radius', '0px 0px 25px 0px');
 			$('#infoDiv').css('position', 'absolute');
-			if(event.clientX + 300 > screen.width) {
+			if(event.clientX + 300 > document.documentElement.clientWidth) {
 				$('#infoDiv').css('left', event.clientX - 300);
 			}
 			else {

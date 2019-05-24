@@ -11,11 +11,12 @@
 	},
 
 	"permissions": [
-		"activeTab"
+		"activeTab",
+		"contextMenus"
 	],
 
 	"browser_action": {
-		"default_icon": "icons/popup-36.png",
+		"default_icon": "icons/popup-48.png",
 		"default_title": "PopUp Encyclopedia",
 		"default_popup": "popup/get_meaning.html"
 	},

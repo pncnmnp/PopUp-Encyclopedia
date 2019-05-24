@@ -1,0 +1,94 @@
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <script>
+	function getSelectedText() {
+		var text = "";
+		if (typeof window.getSelection != "undefined") {
+			text = window.getSelection().toString();
+		} else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
+			text = document.selection.createRange().text;
+		}
+		return text;
+	}
+
+	function doSomethingWithSelectedText() {
+		var selectedText = getSelectedText();
+		if (selectedText && selectedText.split(" ").length <= 2) {
+			var NewPara = document.createElement("p");
+			NewPara.setAttribute("id", "infoDiv");
+			NewPara.setAttribute("class", "tooltipDiv");
+			NewPara.appendChild(document.createTextNode(selectedText));
+
+			if (document.getElementsByClassName("tooltipDiv").length) {
+				var OldPara = document.getElementById("infoDiv");
+				document.body.replaceChild(NewPara, OldPara);
+			}
+
+			else {
+				document.body.appendChild(NewPara);
+			}
+
+			$('#infoDiv').css('display', 'block');
+			$('#infoDiv').css('width', '250px');
+			$('#infoDiv').css('z-index', '101');
+			$('#infoDiv').css('background-color', '#F5DEB3');
+			$('#infoDiv').css('border', '3px solid #666');
+			$('#infoDiv').css('padding', '12px 12px 12px 12px');
+			$('#infoDiv').css('border-radius', '0px 0px 25px 0px');
+			$('#infoDiv').css('position', 'absolute');
+			if(event.clientX + 300 > screen.width) {
+				$('#infoDiv').css('left', event.clientX - 300);
+			}
+			else {
+				$('#infoDiv').css('left', event.clientX);
+			}
+			$('#infoDiv').css('top', event.clientY);
+		} else {
+			$('#infoDiv').css('display', 'none');
+		};
+	};
+
+	document.addEventListener("click", 
+	function(e) {
+		$("#infoDiv").css("display", "none");
+	});
+
+	document.addEventListener("dblclick", 
+	function(e) {
+		doSomethingWithSelectedText();
+	});
+  </script>
+<!--   <style>
+	.tooltipDiv {
+		display: none;
+		width: 250px;
+		z-index: 101;
+		background-color: #fff;
+		border: 3px solid #666;
+		padding: 12px 12px 12px 12px;
+		border-radius: 0px 25px 0px 25px;
+	}
+  </style>
+ -->
+</head>
+
+<body>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
+	has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+	publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
+	has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+	publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
+	has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+	publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It
+	has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+	publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</body>
+
+</html>

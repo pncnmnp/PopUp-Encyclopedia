@@ -149,7 +149,7 @@ function fetch_dictionary(new_word) {
 			if (search != undefined) { 
 				// document.getElementById("meaning").innerHTML = myObj[word];
 				display_meaning(myObj[word]);
-			}	
+			}
 
 			else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
 				// document.getElementById("meaning").innerHTML = myObj[stemmed];

@@ -21,9 +21,9 @@
 		"default_popup": "popup/get_meaning.html"
 	},
 
-
 	"web_accessible_resources": [
-		"dictionary.txt"
+		"popup/dictionary.txt",
+		"stemmer/PorterStemmer1980.js"
 	],
 
 	"commands": {
@@ -37,7 +37,7 @@
 
 	"content_scripts": [
 		{
-			"matches": ["*://*/*"],
+			"matches": ["<all_urls>"],
 			"js": ["./popup/popup.js"]
 		}
 	]

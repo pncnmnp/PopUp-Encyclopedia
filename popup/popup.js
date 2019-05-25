@@ -231,7 +231,7 @@ function fetch_meaning(newWordObj) {
 			var myObj = JSON.parse(this.responseText);
 			var search = myObj[word];
 			var stemmed = stemmer(word);
-			if (search != undefined) { 
+			if (search != undefined) {
 				display_meaning(myObj[word], newWordObj);
 			} else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
 				display_meaning(myObj[stemmed], newWordObj);
@@ -239,12 +239,43 @@ function fetch_meaning(newWordObj) {
 				fetch_wiki(word, newWordObj);
 			}
 		}
-	};	
+	};
 
 	var wordObj = newWordObj;
-	word = wordObj.toString().trim().toLowerCase();
+	var word = wordObj.toString().trim().toLowerCase();
 	xmlhttp.open("GET", chrome.extension.getURL("popup/dictionary.txt"), true);
-	xmlhttp.overrideMimeType("text/plain");	
+	xmlhttp.overrideMimeType("text/plain");
+	xmlhttp.send();
+}
+
+function fetch_wiki_summary(newWord, newWordObj) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		var summary;
+		if (this.readyState == 4 && this.status == 200) {
+			var response = JSON.parse(this.responseText);
+			for(var key in response["query"]["pages"]) {
+				if (response["query"]["pages"]) {
+					if (response["query"]["pages"][key]["extract"]) {
+						summary = response["query"]["pages"][key]["extract"];
+						break;
+					}
+				}
+			}
+
+			if (summary != undefined) {
+				display_meaning(summary, newWordObj);
+			} else {
+				display_meaning("https://www.google.com/search?q="+newWord, newWordObj);
+			}
+		}
+	}
+
+	var api_head = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles="
+	var api_tail = "&origin=*"
+	xmlhttp.open("GET", api_head+newWord+api_tail, true);
+	/* This is necessary for mediawiki API's */
+	xmlhttp.setRequestHeader("Content-Type","application/json; charset=UTF-8");
 	xmlhttp.send();
 }
 
@@ -260,14 +291,18 @@ function fetch_wiki(newWord, newWordObj) {
 					display_meaning(response[2][0], newWordObj);
 				}
 			}
+
+			else if(word != "") {
+				fetch_wiki_summary(newWord, newWordObj);
+			}
 		}
 	};
 
 	var wordObj = newWordObj;
-	word = wordObj.toString().trim().toLowerCase();
+	var word = wordObj.toString().trim().toLowerCase();
 	var front_str = "https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=";
 	var end_str = "&limit=2&namespace=0&format=json";
-	xmlhttp.open("GET", front_str+newWord+end_str, true);
+	xmlhttp.open("GET", front_str+word+end_str, true);
 	xmlhttp.setRequestHeader("Content-Type","application/json; charset=UTF-8");
 	xmlhttp.send();
 }

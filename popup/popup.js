@@ -266,7 +266,7 @@ function fetch_wiki_summary(newWord, newWordObj) {
 			if (summary != undefined) {
 				display_meaning(summary, newWordObj);
 			} else {
-				display_meaning("https://www.google.com/search?q="+newWord, newWordObj);
+				display_meaning("https://www.google.com/search?q="+ newWord +"</a>" + newWord, newWordObj);
 			}
 		}
 	}
@@ -309,19 +309,47 @@ function fetch_wiki(newWord, newWordObj) {
 
 function display_meaning(meaning, textObj) {
 	if (textObj.toString() && textObj.toString().trim().split(" ").length <= 2) {
-		var NewPara = document.createElement("div");
-		NewPara.setAttribute("id", "infoDiv");
-		NewPara.setAttribute("class", "tooltipDiv");
-		NewPara.appendChild(document.createTextNode(meaning));
+		if (meaning.search("</a>") != -1) {
+			var url_arr = meaning.split("</a>");
+			var googleURL = document.createElement("a");
+			googleURL.href = url_arr[0];
+			googleURL.title = url_arr[1];
+			googleURL.appendChild(document.createTextNode(url_arr[1]));
+			googleURL.style.color = "#ff0000";
 
-		if (document.getElementsByClassName("tooltipDiv").length) {
-			var OldPara = document.getElementById("infoDiv");
-			document.documentElement.replaceChild(NewPara, OldPara);
+			var meaningPara = document.createElement("div");
+			meaningPara.setAttribute("id", "infoDiv");
+			meaningPara.setAttribute("class", "tooltipDiv");
+			meaningPara.appendChild(
+				document.createTextNode("David is unable to help 🙂. For a change let the Goliath serve you: ")
+			);
+			meaningPara.appendChild(googleURL);
+
+			if(document.getElementsByClassName("tooltipDiv").length) {
+				var OldMeaning = document.getElementById("infoDiv");
+				document.documentElement.replaceChild(meaningPara, OldMeaning);
+			}
+
+			else {
+				document.documentElement.appendChild(meaningPara);
+			}
 		}
 
 		else {
-			document.documentElement.appendChild(NewPara);
-		}
+			var NewPara = document.createElement("div");
+			NewPara.setAttribute("id", "infoDiv");
+			NewPara.setAttribute("class", "tooltipDiv");
+			NewPara.appendChild(document.createTextNode(meaning));
+
+			if (document.getElementsByClassName("tooltipDiv").length) {
+				var OldPara = document.getElementById("infoDiv");
+				document.documentElement.replaceChild(NewPara, OldPara);
+			}
+
+			else {
+				document.documentElement.appendChild(NewPara);
+			}
+		}	
 
 		var oRect = textObj.getRangeAt(0).getBoundingClientRect();
 		var leftOffset, topOffset;

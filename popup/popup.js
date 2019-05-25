@@ -354,6 +354,7 @@ function display_meaning(meaning, textObj) {
 		document.getElementById("infoDiv").style.padding = "12px 12px 12px 12px";
 		document.getElementById("infoDiv").style.borderRadius = "25px 0px 25px 0px";
 		document.getElementById("infoDiv").style.position = "absolute";
+		document.getElementById("infoDiv").style.fontFamily = "monospace";
 
 		document.getElementById("infoDiv").style.left = String(leftOffset) + "px";
 		document.getElementById("infoDiv").style.top = String(topOffset) + "px";

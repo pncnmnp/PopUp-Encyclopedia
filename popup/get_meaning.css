@@ -3,6 +3,11 @@ html, body {
 	background-color: #F5DEB3;
 	position: relative;
 	font-family: monospace;
+	font-size: 12px;
+}
+
+p {
+	width: 240px;
 }
 
 b {

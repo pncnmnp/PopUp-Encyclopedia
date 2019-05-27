@@ -1,3 +1,10 @@
+/* Any suggestion to call this method from '../stemmer/PorterStemmer1980.js',
+   will really help. Currently I have pasted the entire method here.
+
+   NOTE: stemmer() method is licensed under BSD-License, 
+         unlike the rest of the code, which is under MIT License.
+         See '../README.md' for more Licensing details.
+*/
 var stemmer = (function(){
 	var step2list = {
 			"ational" : "ate",
@@ -214,6 +221,7 @@ var stemmer = (function(){
 	}
 })();
 
+/* Double clicked text is returned as Object */
 function getSelectedTextObj() {
 	var textObj;
 	if (typeof window.getSelection != "undefined") {
@@ -224,6 +232,28 @@ function getSelectedTextObj() {
 	fetch_meaning(textObj);
 }
 
+/* The compact-meaning from 'dictionary.txt' is broken into individual meanings 
+   Returned as Array Object.
+   YET TO INTEGRATE IN THE CODE.
+*/
+function split_meaning(meaning) {
+	/* Splits the meaning according to '1.', '2.', '3.', etc.*/
+	var meaning_split = meaning.split(/[0-9]./);
+	var meaning_arr = [], number = 1;
+	for (var index = 0; index < meaning_split.length; index ++) {
+		if(meaning_split[index].trim() != "") {
+			meaning_arr.push(String(number) + ". " + meaning_split[index].trim());
+			number += 1;
+		}
+	}
+	return meaning_arr;
+}
+
+/* Fetches meaning from 'dictionary.txt', 
+   If no meaning found, word is stemmed and tried again,
+   If still no match, the word is searched in wikipedia,
+   If a match is found, the meaning is passed to split_meaning()
+*/
 function fetch_meaning(newWordObj) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -248,6 +278,10 @@ function fetch_meaning(newWordObj) {
 	xmlhttp.send();
 }
 
+/*
+    As a last resort, it tries getting a summary from wikipedia,
+    if no result found, will return a link to google query wrt the word.
+*/
 function fetch_wiki_summary(newWord, newWordObj) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -279,6 +313,10 @@ function fetch_wiki_summary(newWord, newWordObj) {
 	xmlhttp.send();
 }
 
+/*
+    Searches Wikipedia using mediawiki's API, 
+    if no result found, it will call fetch_wiki_summary().
+*/
 function fetch_wiki(newWord, newWordObj) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -307,6 +345,17 @@ function fetch_wiki(newWord, newWordObj) {
 	xmlhttp.send();
 }
 
+/* Checks if meaning returned is a Google url or meaningText,
+   If Google url, it appends the url in <a> tag,
+   Else it appends the meaningText in <div> tag.
+
+   It also checks if <div> tag with id = 'infoDiv' already exists,
+   If it does not, we append the Node, 
+   else we replace previous node with new one.
+
+   After this it gets the mouse position and position's <div> tag next to it,
+   with the required styling.
+*/
 function display_meaning(meaning, textObj) {
 	if (textObj.toString() && textObj.toString().trim().split(" ").length <= 2) {
 		if (meaning.search("</a>") != -1) {
@@ -369,6 +418,7 @@ function display_meaning(meaning, textObj) {
 			topOffset -= 12;
 		}
 
+		/* Mouse position */
 		leftOffset += window.scrollX;
 		topOffset += window.scrollY;
 

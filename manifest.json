@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "PopUp Encyclopedia",
-	"version": "2.0",
+	"version": "2.1",
 
 	"description": "Popup Encyclopedia which works offline and popups when a word is double-clicked.",
 	"homepage_url": "https://github.com/pncnmnp/PopUp-Encyclopedia",

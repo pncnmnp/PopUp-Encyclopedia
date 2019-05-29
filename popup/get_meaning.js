@@ -108,13 +108,16 @@ function fetch_wiki(api_link, word) {
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
-			if (response[2] != undefined && response[2][0] != undefined && response[2][0] != "") {
+			if (response[2] != undefined && response[2][0] != undefined) {
 				// document.getElementById("meaning").innerHTML = response[2][0];
 				// checking the 'may refer to:' condition
-				if (response[2][0].substr(-13) == "may refer to:") {
-					display_meaning(response[2][1]);
-				}
-				else {
+				if (response[2][0].substr(-13) == "may refer to:" || response[2][0] == "" ) {
+					if (response[2][1] == undefined || response[2][1] == "") {
+						fetch_wiki_summary(word);
+					} else {
+						display_meaning(response[2][1]);
+					}
+				} else {
 					display_meaning(response[2][0]);
 				}
 			}

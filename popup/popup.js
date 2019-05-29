@@ -297,7 +297,7 @@ function fetch_wiki_summary(newWord, newWordObj) {
 				}
 			}
 
-			if (summary != undefined) {
+			if (summary != undefined && summary.substr(-13) != "may refer to:") {
 				display_meaning(summary, newWordObj);
 			} else {
 				display_meaning("https://www.google.com/search?q="+ newWord +"</a>" + newWord, newWordObj);
@@ -322,9 +322,13 @@ function fetch_wiki(newWord, newWordObj) {
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
-			if (response[2] != undefined && response[2][0] != undefined && response[2][0] != "") {
-				if (response[2][0].substr(-13) == "may refer to:") {
-					display_meaning(response[2][1], newWordObj);
+			if (response[2] != undefined && response[2][0] != undefined) {
+				if (response[2][0].substr(-13) == "may refer to:" || response[2][0] == "") {
+					if (response[2][1] == undefined || response[2][1] == "") {
+						fetch_wiki_summary(newWord, newWordObj);
+					} else {
+						display_meaning(response[2][1], newWordObj);
+					}
 				} else {
 					display_meaning(response[2][0], newWordObj);
 				}

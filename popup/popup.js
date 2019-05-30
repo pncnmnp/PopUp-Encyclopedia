@@ -387,6 +387,33 @@ function display_meaning(meaning, textObj) {
 			}
 		}
 
+		else if (meaning.substr(0, 2) == "1.") {
+			var meaning_arr = meaning.split(/\n/);
+			var bold, boldNode;
+			meaningPara = document.createElement("div");
+			meaningPara.setAttribute("id", "infoDiv");
+			meaningPara.setAttribute("class", "tooltipDiv");
+
+			for(var index = 0; index < meaning_arr.length; index++) {
+				bold = document.createElement("strong");
+				boldNode = document.createTextNode(meaning_arr[index].substr(0, 2));
+				bold.appendChild(boldNode);
+				meaningPara.appendChild(bold);
+				// Insert the rest of meaning with a '\n'
+				meaningPara.appendChild(document.createTextNode(meaning_arr[index].substr(2) + "\n"));
+			}
+
+
+			if(document.getElementsByClassName("tooltipDiv").length) {
+				var prevNode = document.getElementById("infoDiv");
+				document.documentElement.replaceChild(meaningPara, prevNode);
+			}
+
+			else {
+				document.documentElement.appendChild(meaningPara);
+			}
+		}
+
 		else {
 			var NewPara = document.createElement("div");
 			NewPara.setAttribute("id", "infoDiv");
@@ -412,8 +439,8 @@ function display_meaning(meaning, textObj) {
 		pageHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
 		leftOffset = oRect.left + oRect.width + 1 + 12;
-		if (300 + leftOffset > pageWidth - 12) {
-			leftOffset = pageWidth - 350 - 12;
+		if (350 + leftOffset > pageWidth - 12) {
+			leftOffset = pageWidth - 400 - 12;
 		}
 
 		topOffset = oRect.top;

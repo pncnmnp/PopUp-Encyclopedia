@@ -47,6 +47,30 @@ function display_meaning(meaning) {
 			}
 		}
 
+		else if (meaning.substr(0, 2) == "1.") {
+			var meaning_arr = meaning.split(/\n/);
+			var bold, boldNode;
+			meaningPara = document.createElement("p");
+			for(var index = 0; index < meaning_arr.length; index++) {
+				bold = document.createElement("strong");
+				boldNode = document.createTextNode(meaning_arr[index].substr(0, 2));
+				bold.appendChild(boldNode);
+				meaningPara.appendChild(bold);
+				// Insert the rest of meaning with a '\n'
+				meaningPara.appendChild(document.createTextNode(meaning_arr[index].substr(2) + "\n"));
+			}
+
+			prevNode = document.querySelector(".meaning p");
+
+			if(prevNode == null) {
+				parent.appendChild(meaningPara);
+			}
+
+			else {
+				parent.replaceChild(meaningPara, prevNode);
+			}
+		}
+
 		else {
 			meaningPara = document.createElement("p");
 			meaningPara.appendChild(document.createTextNode(meaning));

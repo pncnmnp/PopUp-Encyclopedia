@@ -8,6 +8,7 @@ html, body {
 
 p {
 	width: 240px;
+	white-space: pre-line;
 }
 
 b {

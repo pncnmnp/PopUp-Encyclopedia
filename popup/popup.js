@@ -234,19 +234,18 @@ function getSelectedTextObj() {
 
 /* The compact-meaning from 'dictionary.txt' is broken into individual meanings 
    Returned as Array Object.
-   YET TO INTEGRATE IN THE CODE.
 */
 function split_meaning(meaning) {
 	/* Splits the meaning according to '1.', '2.', '3.', etc.*/
-	var meaning_split = meaning.split(/[0-9]./);
+	var meaning_split = meaning.split(/[0-9]{1}\./);
 	var meaning_arr = [], number = 1;
 	for (var index = 0; index < meaning_split.length; index ++) {
-		if(meaning_split[index].trim() != "") {
+		if(meaning_split[index].trim() != "" && meaning_split[index].trim().length >= 5) {
 			meaning_arr.push(String(number) + ". " + meaning_split[index].trim());
 			number += 1;
 		}
 	}
-	return meaning_arr;
+	return meaning_arr.join("\n");
 }
 
 /* Fetches meaning from 'dictionary.txt', 
@@ -262,9 +261,9 @@ function fetch_meaning(newWordObj) {
 			var search = myObj[word];
 			var stemmed = stemmer(word);
 			if (search != undefined) {
-				display_meaning(myObj[word], newWordObj);
+				display_meaning(split_meaning(myObj[word]), newWordObj);
 			} else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
-				display_meaning(myObj[stemmed], newWordObj);
+				display_meaning(split_meaning(myObj[stemmed]), newWordObj);
 			} else {
 				fetch_wiki(word, newWordObj);
 			}
@@ -427,7 +426,7 @@ function display_meaning(meaning, textObj) {
 		topOffset += window.scrollY;
 
 		document.getElementById("infoDiv").style.display = "block";
-		document.getElementById("infoDiv").style.width = "250px";
+		document.getElementById("infoDiv").style.width = "350px";
 		document.getElementById("infoDiv").style.height = "300px";
 		document.getElementById("infoDiv").style.overflow = "auto";
 		document.getElementById("infoDiv").style.zIndex = "101";
@@ -438,6 +437,7 @@ function display_meaning(meaning, textObj) {
 		document.getElementById("infoDiv").style.position = "absolute";
 		document.getElementById("infoDiv").style.fontFamily = "monospace";
 		document.getElementById("infoDiv").style.fontSize = "12px";
+		document.getElementById("infoDiv").style.whiteSpace = "pre-line";
 
 		document.getElementById("infoDiv").style.left = String(leftOffset) + "px";
 		document.getElementById("infoDiv").style.top = String(topOffset) + "px";

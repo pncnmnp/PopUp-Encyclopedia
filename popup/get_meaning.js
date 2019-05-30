@@ -135,6 +135,21 @@ function fetch_wiki(api_link, word) {
 	xmlhttp.send();
 }
 
+/* The compact-meaning from 'dictionary.txt' is broken into individual meanings 
+   Returned as Array Object.
+*/
+function split_meaning(meaning) {
+	/* Splits the meaning according to '1.', '2.', '3.', etc.*/
+	var meaning_split = meaning.split(/[0-9]{1}\./);
+	var meaning_arr = [], number = 1;
+	for (var index = 0; index < meaning_split.length; index ++) {
+		if(meaning_split[index].trim() != "" && meaning_split[index].trim().length >= 5) {
+			meaning_arr.push(String(number) + ". " + meaning_split[index].trim());
+			number += 1;
+		}
+	}
+	return meaning_arr.join("\n");
+}
 
 /*
     The input's origin is segregated on the basis of double-click text or input-box text.
@@ -151,12 +166,12 @@ function fetch_dictionary(new_word) {
 			var stemmed = stemmer(word);
 			if (search != undefined) { 
 				// document.getElementById("meaning").innerHTML = myObj[word];
-				display_meaning(myObj[word]);
+				display_meaning(split_meaning(myObj[word]));
 			}
 
 			else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
 				// document.getElementById("meaning").innerHTML = myObj[stemmed];
-				display_meaning(myObj[stemmed]);
+				display_meaning(split_meaning(myObj[stemmed]));
 			}
 
 			else {

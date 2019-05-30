@@ -394,6 +394,13 @@ function display_meaning(meaning, textObj) {
 			meaningPara.setAttribute("id", "infoDiv");
 			meaningPara.setAttribute("class", "tooltipDiv");
 
+			var meaningHead = document.createElement("div");
+			meaningHead.setAttribute("id", "meaningHead");
+			meaningHead.appendChild(document.createTextNode(textObj.toString().charAt(0).toUpperCase()
+															 + textObj.toString().substr(1)
+															 + "\n"));
+			meaningPara.appendChild(meaningHead);
+
 			for(var index = 0; index < meaning_arr.length; index++) {
 				bold = document.createElement("strong");
 				boldNode = document.createTextNode(meaning_arr[index].substr(0, 2));
@@ -402,7 +409,6 @@ function display_meaning(meaning, textObj) {
 				// Insert the rest of meaning with a '\n'
 				meaningPara.appendChild(document.createTextNode(meaning_arr[index].substr(2) + "\n"));
 			}
-
 
 			if(document.getElementsByClassName("tooltipDiv").length) {
 				var prevNode = document.getElementById("infoDiv");
@@ -418,6 +424,14 @@ function display_meaning(meaning, textObj) {
 			var NewPara = document.createElement("div");
 			NewPara.setAttribute("id", "infoDiv");
 			NewPara.setAttribute("class", "tooltipDiv");
+
+			meaningHead = document.createElement("div");
+			meaningHead.appendChild(document.createTextNode(textObj.toString().charAt(0).toUpperCase()
+															 + textObj.toString().substr(1)
+															 + "\n"));
+			meaningHead.setAttribute("id", "meaningHead");
+			NewPara.appendChild(meaningHead);
+
 			NewPara.appendChild(document.createTextNode(meaning));
 
 			if (document.getElementsByClassName("tooltipDiv").length) {
@@ -439,7 +453,7 @@ function display_meaning(meaning, textObj) {
 		pageHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
 		leftOffset = oRect.left + oRect.width + 1 + 12;
-		if (350 + leftOffset > pageWidth - 12) {
+		if (400 + leftOffset > pageWidth - 12) {
 			leftOffset = pageWidth - 400 - 12;
 		}
 
@@ -468,6 +482,12 @@ function display_meaning(meaning, textObj) {
 
 		document.getElementById("infoDiv").style.left = String(leftOffset) + "px";
 		document.getElementById("infoDiv").style.top = String(topOffset) + "px";
+
+		document.getElementById("meaningHead").style.textAlign = "center";
+		document.getElementById("meaningHead").style.fontWeight = "bold";
+		document.getElementById("meaningHead").style.fontFamily = "Times New Roman";
+		document.getElementById("meaningHead").style.fontSize = "18px";
+		document.getElementById("meaningHead").style.padding = "0px 0px 10px 0px";
 	}
 
 	else {

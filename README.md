@@ -7,12 +7,12 @@ This extension works offline as a Dictionary search.<br/>
 For keyboard ninjas, **Alt+Shift+M** is a shortcut key to popup the extension.
 
 ### Demo
-See demo: https://github.com/pncnmnp/PopUp-Encyclopedia/blob/master/icons/output.gif)
+See demo: https://github.com/pncnmnp/PopUp-Encyclopedia/blob/master/icons/output.gif
 
 ### License
 `./stemmer/PorterStemmer1980.js` - 3-clause-BSD License<br/>
 `./popup/dictionary.txt` - GNU GPL2<br/>
-`popup` icon - Apache License ( part of Google's [Material Icons](https://material.io/tools/icons/?icon=speaker_notes&style=baseline)).<br/>
+`popup` icon - Apache License ( part of Google's [Material Icons](https://material.io/tools/icons/?icon=speaker_notes&style=baseline) ).<br/>
 **All the files excluding above are under MIT License**
 
 ### Credits

@@ -265,7 +265,7 @@ function fetch_meaning(newWordObj) {
 			} else if (myObj[stemmed] != undefined && myObj[stemmed] != stemmed) {
 				display_meaning(split_meaning(myObj[stemmed]), newWordObj);
 			} else {
-				fetch_wiki(word, newWordObj);
+				lemm_fetch_meaning(word, myObj, newWordObj);
 			}
 		}
 	};
@@ -273,6 +273,26 @@ function fetch_meaning(newWordObj) {
 	var wordObj = newWordObj;
 	var word = wordObj.toString().trim().toLowerCase();
 	xmlhttp.open("GET", chrome.extension.getURL("popup/dictionary.txt"), true);
+	xmlhttp.overrideMimeType("text/plain");
+	xmlhttp.send();
+}
+
+function lemm_fetch_meaning(word, dictionary, newWordObj) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if(this.readyState == 4 && this.status == 200) {
+			var lemm = JSON.parse(this.responseText);
+			var lemm_word = lemm[word];
+			var search = dictionary[lemm_word];
+			if (search != undefined) {
+				display_meaning(split_meaning(dictionary[lemm_word]), newWordObj);
+			} else {
+				fetch_wiki(word, newWordObj);
+			}
+		}
+	};
+
+	xmlhttp.open("GET", chrome.extension.getURL("popup/lookup.txt"), true);
 	xmlhttp.overrideMimeType("text/plain");
 	xmlhttp.send();
 }

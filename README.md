@@ -13,9 +13,11 @@ See demo: https://github.com/pncnmnp/PopUp-Encyclopedia/blob/master/icons/output
 `./stemmer/PorterStemmer1980.js` - 3-clause-BSD License<br/>
 `./popup/dictionary.txt` - GNU GPL2<br/>
 `popup` icon - Apache License ( part of Google's [Material Icons](https://material.io/tools/icons/?icon=speaker_notes&style=baseline) ).<br/>
+`./popup/lookup.txt` - mentioned in `./popup/LOOKUP_LICENSE.txt`
 **All the files excluding above are under MIT License**
 
 ### Credits
 * `https://www.mediawiki.org/wiki/API:Main_page`<br/>
-* `https://github.com/kristopolous/Porter-Stemmer`<br/>
-* `https://github.com/matthewreagan/WebstersEnglishDictionary/blob/master/dictionary.json`
+* `https://github.com/matthewreagan/WebstersEnglishDictionary/blob/master/dictionary.json`<br/>
+* `https://github.com/explosion/spaCy`<br/>
+* `https://github.com/kristopolous/Porter-Stemmer`

@@ -175,6 +175,28 @@ function split_meaning(meaning) {
 	return meaning_arr.join("\n");
 }
 
+function lemm_fetch_dictionary(new_word, dictionary) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var lemm = JSON.parse(this.responseText);
+			var word = lemm[new_word];
+			var search = dictionary[word];
+			if (search != undefined) {
+				display_meaning(split_meaning(dictionary[word]));
+			} else {
+				var front_str = "https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=";
+				var end_str = "&limit=2&namespace=0&format=json";
+				fetch_wiki(front_str+new_word+end_str, new_word);
+			}
+		}
+	};
+
+	xmlhttp.open("GET", "lookup.txt", true);
+	xmlhttp.overrideMimeType("text/plain");	
+	xmlhttp.send();	
+}
+
 /*
     The input's origin is segregated on the basis of double-click text or input-box text.
     The word[s] obtained is/are matched in the inbuilt dictionary,
@@ -199,9 +221,7 @@ function fetch_dictionary(new_word) {
 			}
 
 			else {
-				var front_str = "https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=";
-				var end_str = "&limit=2&namespace=0&format=json";
-				fetch_wiki(front_str+word+end_str, word);
+				lemm_fetch_dictionary(word, myObj);
 			}
 		}
 	};	

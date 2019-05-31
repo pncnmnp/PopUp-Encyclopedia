@@ -175,6 +175,10 @@ function split_meaning(meaning) {
 	return meaning_arr.join("\n");
 }
 
+/*
+	The word is Lemmatized and searched in 'lookup.txt'
+    If still no result, fetch_wiki() is executed.
+*/
 function lemm_fetch_dictionary(new_word, dictionary) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -201,7 +205,7 @@ function lemm_fetch_dictionary(new_word, dictionary) {
     The input's origin is segregated on the basis of double-click text or input-box text.
     The word[s] obtained is/are matched in the inbuilt dictionary,
     If no result found, the word[s] is/are stemmed and again searched,
-    If still no result, fetch_wiki() is executed.
+    If still no result, lemm_fetch_dictionary() is executed.
 */
 function fetch_dictionary(new_word) {
 	var xmlhttp = new XMLHttpRequest();

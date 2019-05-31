@@ -277,6 +277,10 @@ function fetch_meaning(newWordObj) {
 	xmlhttp.send();
 }
 
+/*
+	The word is Lemmatized and searched in 'lookup.txt'
+    If still no result, fetch_wiki() is executed.
+*/
 function lemm_fetch_meaning(word, dictionary, newWordObj) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {

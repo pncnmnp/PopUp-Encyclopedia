@@ -290,6 +290,8 @@ function lemm_fetch_meaning(word, dictionary, newWordObj) {
 			var search = dictionary[lemm_word];
 			if (search != undefined) {
 				display_meaning(split_meaning(dictionary[lemm_word]), newWordObj);
+			} else if (window.navigator.onLine == false) {
+				display_meaning("This word is not in dictionary. Internet connection is required to search in Encyclopedia!", newWordObj);
 			} else {
 				fetch_wiki(word, newWordObj);
 			}

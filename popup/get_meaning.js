@@ -188,6 +188,8 @@ function lemm_fetch_dictionary(new_word, dictionary) {
 			var search = dictionary[word];
 			if (search != undefined) {
 				display_meaning(split_meaning(dictionary[word]));
+			} else if (window.navigator.onLine == false) {
+				display_meaning("This word is not in dictionary. Internet connection is required to search in Encyclopedia!");
 			} else {
 				var front_str = "https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=";
 				var end_str = "&limit=2&namespace=0&format=json";
